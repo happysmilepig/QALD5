@@ -20,7 +20,7 @@ public class AnnotationConst {
 //	public final static String dexterParas = "&n=10";
 //	public final static String tagmeParas = "&key=abAnBGgAqA2015&include_categories=true&include_all_spots=true";
 	
-	public final static String spotlightParas = "";
+	public final static String spotlightParas = "&confidence=0&support=0";
 	public final static String minerParas = "&responseFormat=JSON&sourceMode=HTML&references=true&minProbability=0&disambiguationPolicy=loose";
 	public final static String dexterParas = "&n=10";
 	public final static String tagmeParas = "&key=abAnBGgAqA2015";
