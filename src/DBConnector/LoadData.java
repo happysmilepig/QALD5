@@ -1,12 +1,18 @@
 package DBConnector;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.gson.JsonObject;
+
 import BasicOps.FileOps;
+import Entity.Annotation;
+import Entity.AnnotationConst;
 
 public class LoadData {
 	private entityDB db;
@@ -76,7 +82,8 @@ public class LoadData {
 
 	public void loadSpotlight() {
 		System.out.println("spotlight result loading...");
-		String path = "./entity/spotlight/";
+//		String path = "./entity/spotlight/";
+		String path = "./entity/spotlight2/";
 
 		for (int i = 1; i <= 300; ++i) {
 			System.out.println(i + " start loading...");
@@ -150,8 +157,74 @@ public class LoadData {
 		System.out.println("finished");
 	}
 
+	/**
+	 * 
+	 */
 	public void loadDexter() {
 		System.out.println("dexter result loading...");
+		String path = "./entity/dexter2/";
+		
+		Annotation annotation = new Annotation();
+
+		for (int i = 1; i <= 300; ++i) {
+			System.out.println(i + " start loading...");
+			String filename = path + i + ".txt";
+			String response = FileOps.LoadFile(filename);
+
+			int questionID = i;
+			int startIndex;
+			int endIndex;
+			int candID;
+			String candTitle;
+			String candUri;
+			String candDescription;
+			double linkProbability;
+			double commonness;
+			int linkFrequency;
+			int documentFrequency;
+			int entityFrequency;
+
+			JSONObject responseJson = null;
+			JSONObject spots = null;
+			try {
+				responseJson = new JSONObject(response);
+				if (!responseJson.has("entities")) {
+					continue;
+				}
+				spots = responseJson.getJSONObject("entities");
+				Iterator<String> keys = spots.keys(); 
+				
+				while(keys.hasNext()){
+					String key = keys.next();
+					candID = Integer.parseInt(key);
+					String idResponse = annotation.queryResult(AnnotationConst.dexterURI2ID + candID);
+					JSONObject idRes = new JSONObject(idResponse);
+					candDescription = idRes.getString("description");
+					candUri = idRes.getString("url").substring(28);
+					candTitle = idRes.getString("title");
+					
+					
+					JSONArray spot = spots.getJSONArray(key);
+					for(int c=0; c<spot.length(); ++c){
+						JSONObject current = spot.getJSONObject(c);
+						linkProbability = current.getDouble("linkProbability");
+						startIndex = current.getInt("start");
+						endIndex = current.getInt("end");
+						linkFrequency = current.getInt("linkFrequency");
+						documentFrequency = current.getInt("documentFrequency");
+						entityFrequency = current.getInt("entityFrequency");
+						commonness = current.getDouble("commonness");
+						
+						db.insertDexter(questionID, startIndex, endIndex, linkProbability, linkFrequency, documentFrequency, entityFrequency, commonness, candID, candTitle, candUri, candDescription);
+					}
+					
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
 		System.out.println("finished");
 	}
 }

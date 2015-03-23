@@ -75,7 +75,7 @@ public class entityDB {
 			double percentageOfSecondRank, String types){
 		try {
 			PreparedStatement stat = conn.prepareStatement(
-					"INSERT INTO `spotlight`(`questionID`, `startIndex`,`endIndex`,`candTitle`,`candUri`,`support`,`finalScore`,`priorScore`,`contextualScore`,`percentageOfSecondRank`,`types`) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+					"INSERT INTO `spotlight2`(`questionID`, `startIndex`,`endIndex`,`candTitle`,`candUri`,`support`,`finalScore`,`priorScore`,`contextualScore`,`percentageOfSecondRank`,`types`) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
 			stat.setInt(1, questionID);
 			stat.setInt(2, startIndex);
 			stat.setInt(3, endIndex);
@@ -90,7 +90,32 @@ public class entityDB {
 			stat.executeUpdate();
 		} catch (Exception ex) {
 		}
-		
+	}
+	
+	public void insertDexter(
+			int questionID, int startIndex, int endIndex,
+			double linkProbability, int linkFrequency,
+			int documentFrequency, int entityFrequency,
+			 double commonness, int candID, String candTitle,
+			String candUri, String candDescription ){
+		try {
+			PreparedStatement stat = conn.prepareStatement(
+					"INSERT INTO `dexter`(`questionID`, `startIndex`,`endIndex`,`linkProbability`, `linkFrequency`, `documentFrequency`,`entityFrequency`,`commonness`,`candID`,`candTitle`,`candUri`,`candDescription`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+			stat.setInt(1, questionID);
+			stat.setInt(2, startIndex);
+			stat.setInt(3, endIndex);
+			stat.setDouble(4, linkProbability);
+			stat.setInt(5, linkFrequency);
+			stat.setInt(6, documentFrequency);
+			stat.setInt(7, entityFrequency);
+			stat.setDouble(8, commonness);
+			stat.setInt(9, candID);
+			stat.setString(10, candTitle);
+			stat.setString(11, candUri);
+			stat.setString(12, candDescription);
+			stat.executeUpdate();
+		} catch (Exception ex) {
+		}
 	}
 
 	public static void main(String[] args) {

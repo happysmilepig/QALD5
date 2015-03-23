@@ -9,7 +9,7 @@ public class AnnotationConst {
 	public final static String minerURI = "http://wikipedia-miner.cms.waikato.ac.nz/services/wikify";
 	public final static String dexterURI = "http://localhost:8080/rest/annotate/";
 //	public final static String dexterSpotURI = "http://localhost:8080/rest/spot/";
-	public final static String dexterURI2 = "http://localhost:8080/dexter-webapp/api/rest/spot-entities";
+	public final static String dexterURI2 = "http://dexterdemo.isti.cnr.it:8080/dexter-webapp/api/rest/spot-entities";
 	public final static String tagmeURI = "http://tagme.di.unipi.it/tag";
 	
 	
@@ -22,9 +22,9 @@ public class AnnotationConst {
 	
 	public final static String spotlightParas = "&confidence=0&support=0";
 	public final static String minerParas = "&responseFormat=JSON&sourceMode=HTML&references=true&minProbability=0&disambiguationPolicy=loose";
-	public final static String dexterParas = "";
+	public final static String dexterParas = "&wn=false&debug=false&format=text";
 	public final static String tagmeParas = "&key=abAnBGgAqA2015";
 	public final static String [] servicetParas = {spotlightParas,spotlightParas,spotlightParas,spotlightParas,minerParas,dexterParas,dexterParas,tagmeParas};
 
-	public final static String dexterURI2ID = "http://localhost:8080/dexter-webapp/api/rest/get-desc?id=";
+	public final static String dexterURI2ID = "http://dexterdemo.isti.cnr.it:8080/dexter-webapp/api/rest/get-desc?id=";
 }

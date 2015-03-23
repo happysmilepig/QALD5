@@ -127,6 +127,7 @@ public class Annotation {
 //			if(count == 135 || count == 140){
 //				continue;
 //			}
+//			System.out.println(queryBuilder(text));
 //			System.out.println(queryResult(queryBuilder(text)));
 //			break;
 //			String response = queryResult(queryBuilder(text));
