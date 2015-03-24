@@ -3,8 +3,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 
-import javax.naming.InitialContext;
-
 
 public class Debug {
 	public static BufferedWriter out;
