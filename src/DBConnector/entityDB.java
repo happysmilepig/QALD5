@@ -3,7 +3,10 @@ package DBConnector;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 public class entityDB {
 
@@ -14,8 +17,8 @@ public class entityDB {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(
-							"jdbc:mysql://172.16.7.85:3306/entity?characterEncoding=utf8",
-							"qa", "qa");
+							"jdbc:mysql://localhost:3306/entity?characterEncoding=utf8",
+							"root", "");
 		} catch (Exception ex) {
 			// TODO Auto-generated catch block
 			ex.printStackTrace();
@@ -118,6 +121,27 @@ public class entityDB {
 		}
 	}
 
+	public ArrayList<String[]> selectMark(){
+		ArrayList<String[]> res=new ArrayList<String[]>();
+		try {
+			String cmd="SELECT * FROM mark WHERE pattern = 1";
+			Statement stat=conn.createStatement();
+			ResultSet r=stat.executeQuery(cmd);
+			
+//			System.out.println(r);
+			for (;r.next();){
+				String entity = r.getString(5);
+				if(entity.length() != 0){
+					entity = entity.replace(" ", "_");
+					String wiki = "http://en.wikipedia.org/wiki/"+entity;
+//					System.out.println(wiki);
+					res.add(new String[]{r.getString(2),r.getString(3),r.getString(4),wiki});
+				}
+			}
+		} catch (Exception e) {}
+		return res;
+	}
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
