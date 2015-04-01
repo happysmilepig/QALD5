@@ -1,14 +1,11 @@
 package DBConnector;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.google.gson.JsonObject;
 
 import BasicOps.FileOps;
 import Entity.Annotation;

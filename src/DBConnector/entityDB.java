@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import scala.tools.scalap.scalax.rules.scalasig.ClassFileParser.ArrayValue;
+
 public class entityDB {
 
 	Connection conn;
@@ -99,7 +101,7 @@ public class entityDB {
 			int questionID, int startIndex, int endIndex,
 			double linkProbability, int linkFrequency,
 			int documentFrequency, int entityFrequency,
-			 double commonness, int candID, String candTitle,
+			double commonness, int candID, String candTitle,
 			String candUri, String candDescription ){
 		try {
 			PreparedStatement stat = conn.prepareStatement(
@@ -121,6 +123,59 @@ public class entityDB {
 		}
 	}
 
+	public void insertTrain(
+			int question,int start,int end, String title,
+			double weight, double linkprobability, double commonness,
+			int linkfrequency, int documentfrequency, int entityfrequency,
+			double finalscore, int support, double priorscore, double contextscore,
+			double percentage, double finalscore2, int support2, double priorscore2,
+			double contextscore2, double percentage2,int label
+			){
+		try {
+			PreparedStatement stat = conn.prepareStatement(
+					"INSERT INTO `train`(`question`, `start`,`end`,`title`,`weight`,`linkprobability`, `commonness`,`linkfrequency`, `documentfrequency`,`entityfrequency`,`finalscore`,`support`,`priorscore`,`contextscore`,`percentage`,`finalscore2`,`support2`,`priorscore2`,`contextscore2`,`percentage2`,`label`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+			stat.setInt(1, question);
+			stat.setInt(2, start);
+			stat.setInt(3, end);
+			stat.setString(4, title);
+			stat.setDouble(5, weight);
+			stat.setDouble(6, linkprobability);
+			stat.setDouble(7, commonness);
+			stat.setInt(8, linkfrequency);
+			stat.setInt(9, documentfrequency);
+			stat.setInt(10, entityfrequency);
+			stat.setDouble(11, finalscore);
+			stat.setInt(12, support);
+			stat.setDouble(13, priorscore);
+			stat.setDouble(14, contextscore);
+			stat.setDouble(15, percentage);
+			stat.setDouble(16, finalscore2);
+			stat.setInt(17, support2);
+			stat.setDouble(18, priorscore2);
+			stat.setDouble(19, contextscore2);
+			stat.setDouble(20, percentage2);
+			stat.setInt(21, label);
+			
+			stat.executeUpdate();
+		} catch (Exception ex) {
+//			System.out.println("xxx");
+			ex.printStackTrace();
+		}
+	}
+	
+	public ResultSet select(String query){
+		Statement stat;
+		try {
+			stat = conn.createStatement();
+			ResultSet r=stat.executeQuery(query);
+			return r;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public ArrayList<String[]> selectMark(){
 		ArrayList<String[]> res=new ArrayList<String[]>();
 		try {
