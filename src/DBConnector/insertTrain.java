@@ -26,14 +26,18 @@ public class insertTrain {
 		ResultSet mark = db.select(markQuery);
 		
 		int count = 0;
+//		int test = 0;
 		while(mark.next()){
+//			++test;
 			question = mark.getInt(2);
+			if(question > 201){
+				break;
+			}
 			start = mark.getInt(3);
 			end = mark.getInt(4);
 			
 			markup = mark.getString(5);
 			pattern = mark.getInt(6);
-			
 			
 			sb.setLength(0);
 			sb.append(" where questionID=");
@@ -66,10 +70,11 @@ public class insertTrain {
 			}
 			
 			ResultSet spot2 = db.select(spot2Query);
-			while(spot.next()){
-				set.add(spot.getString(5));
+			while(spot2.next()){
+				set.add(spot2.getString(5));
 			}
 			
+//			System.out.println(set.size());
 			for (String tmptitle : set) {
 				if(tmptitle.length()==0){
 					continue;
@@ -179,7 +184,10 @@ public class insertTrain {
 				}
 				db.insertTrain(question, start, end, tmptitle, weight, linkprobability, commonness, linkfrequency, documentfrequency, entityfrequency, finalscore, support, priorscore, contextscore, percentage, finalscore2, support2, priorscore2, contextscore2, percentage2, label);
 			}
-//			break;
+//			if(test >2){
+//				break;
+//			}
+			
 		}
 		db.close();
 	}
