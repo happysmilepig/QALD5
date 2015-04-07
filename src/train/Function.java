@@ -40,7 +40,7 @@ public class Function {
 		return id;
 	}
 	
-	public void features(String[] feature,String path){
+	public void allfeatures(String[] feature,String path){
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		String[] attr= {"weight","linkprobability","commonness",
 				"linkfrequency","documentfrequency","entityfrequency",
@@ -56,6 +56,51 @@ public class Function {
 			BufferedWriter fout=new BufferedWriter(new FileWriter(path));
 			
 			String query = "select * from train";
+			ResultSet result = db.select(query);
+			
+			StringBuilder sb = new StringBuilder();
+			
+			while(result.next()){
+				sb.setLength(0);
+				int label = result.getInt(22);
+				sb.append(label);
+				for(int i=0; i<feature.length; ++i){
+					int column = map.get(feature[i]);
+					String value = result.getString(column);
+					sb.append(" ");
+					sb.append(i+1);
+					sb.append(":");
+					sb.append(value);
+				}
+				sb.append("\n");
+				fout.write(sb.toString());
+			}
+			fout.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void features(String[] feature,String path){
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		String[] attr= {"weight","linkprobability","commonness",
+				"linkfrequency","documentfrequency","entityfrequency",
+				"finalscore","support","priorscore","contextscore",
+				"percentage","finalscore2","support2","priorscore2",
+				"contextscore2","percentage2","label"};
+		
+		for(int i=0; i<attr.length; ++i){
+			map.put(attr[i], i+6);
+		}
+		
+		try {
+			BufferedWriter fout=new BufferedWriter(new FileWriter(path));
+			
+			String query = "select * from train where question < 202";
 			ResultSet result = db.select(query);
 			
 			StringBuilder sb = new StringBuilder();

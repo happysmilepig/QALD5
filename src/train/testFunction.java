@@ -9,7 +9,27 @@ import service.svm_scale;
 import service.svm_train;
 
 public class testFunction {
-
+	
+	public void allResult(){
+		Function f = new Function();
+		String [] features = {"priorscore","priorscore2","contextscore","contextscore2","weight","linkprobability","commonness","finalscore","finalscore2"};
+		f.allfeatures(features, "./svm/all-features-score.txt");
+		
+		String[] parg = { "svm/all-features-score.txt", // 这个是存放测试数据
+				"svm/score-model", // 调用的是训练以后的模型
+				"svm/all-score-result.txt" }; // 生成的结果的文件的路径
+		
+		try {
+			svm_predict.main(parg);
+			f.output(0, "./svm/all-score-result.txt", "./svm/all-score-entity.txt");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		Function f = new Function();

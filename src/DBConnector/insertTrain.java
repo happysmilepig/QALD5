@@ -22,7 +22,7 @@ public class insertTrain {
 		
 		StringBuilder sb = new StringBuilder();
 		
-		String markQuery = "select * from mark";
+		String markQuery = "select * from mark where questionID < 202";
 		ResultSet mark = db.select(markQuery);
 		
 		int count = 0;
@@ -30,9 +30,9 @@ public class insertTrain {
 		while(mark.next()){
 //			++test;
 			question = mark.getInt(2);
-			if(question > 201){
-				break;
-			}
+//			if(question > 201){
+//				break;
+//			}
 			start = mark.getInt(3);
 			end = mark.getInt(4);
 			
